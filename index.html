@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive Math 172 lab for graphing quadratic functions and identifying vertices, axes of symmetry, and maximum or minimum points.">
+  <title>PR1 Quadratic Graph Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Skip to activity</a>
+  <header class="topbar">
+    <div class="brand">
+      <span class="course-mark" aria-hidden="true">PR1</span>
+      <div><h1>Quadratic Graph Lab</h1><p>Math 172 · Building Toward Calculus</p></div>
+    </div>
+    <nav class="mode-tabs" aria-label="Learning mode">
+      <button class="mode-tab active" data-mode="teach" aria-pressed="true">Teach</button>
+      <button class="mode-tab" data-mode="algebra" aria-pressed="false">Standard Form Lab</button>
+      <button class="mode-tab" data-mode="guided" aria-pressed="false">Guided Practice</button>
+      <button class="mode-tab" data-mode="test" aria-pressed="false">Test Your Skills</button>
+    </nav>
+  </header>
+
+  <main id="workspace" class="workspace">
+    <section class="graph-card" aria-labelledby="graph-title">
+      <div class="graph-heading">
+        <div><p class="eyebrow" id="mode-label">Explore the structure</p><h2 id="graph-title">Watch the equation and graph change together</h2></div>
+        <button class="icon-button" id="reset-btn" type="button" title="Reset example">↻ <span>Reset</span></button>
+      </div>
+      <div class="canvas-wrap" id="canvas-wrap">
+        <canvas id="graph" width="720" height="620" aria-label="Coordinate plane showing a quadratic function"></canvas>
+        <div id="graph-announce" class="sr-only" aria-live="polite"></div>
+      </div>
+      <div class="legend" aria-label="Graph legend">
+        <span><i class="legend-line curve"></i>Quadratic</span>
+        <span><i class="legend-line symmetry"></i>Axis of symmetry</span>
+        <span><i class="legend-dot"></i>Vertex</span>
+        <span><i class="legend-pair"></i>Symmetric pair</span>
+        <span><i class="legend-root"></i>Real root</span>
+      </div>
+    </section>
+
+    <aside class="learning-panel">
+      <section id="teach-panel" class="panel-view active" aria-labelledby="equation-title">
+        <p class="eyebrow">Vertex form</p>
+        <h2 id="equation-title" class="equation">f(x) = <span id="eq-a">1</span>(x <span id="eq-h-sign">−</span> <span id="eq-h">1</span>)² <span id="eq-k-sign">−</span> <span id="eq-k">3</span></h2>
+        <p class="equation-note">f(x) = a(x − h)² + k</p>
+
+        <div class="slider-group">
+          <label for="a-slider"><span>Shape and direction <strong>a</strong></span><output id="a-output">1</output></label>
+          <input id="a-slider" type="range" min="-3" max="3" step="0.5" value="1">
+          <div class="range-labels"><span>opens down</span><span>opens up</span></div>
+        </div>
+        <div class="slider-group">
+          <label for="h-slider"><span>Horizontal position <strong>h</strong></span><output id="h-output">1</output></label>
+          <input id="h-slider" type="range" min="-5" max="5" step="1" value="1">
+          <div class="range-labels"><span>left</span><span>right</span></div>
+        </div>
+        <div class="slider-group">
+          <label for="k-slider"><span>Vertical position <strong>k</strong></span><output id="k-output">−3</output></label>
+          <input id="k-slider" type="range" min="-5" max="5" step="1" value="-3">
+          <div class="range-labels"><span>down</span><span>up</span></div>
+        </div>
+
+        <div class="feature-grid">
+          <div><span>Vertex</span><strong id="vertex-readout">(1, −3)</strong></div>
+          <div><span>Axis</span><strong id="axis-readout">x = 1</strong></div>
+          <div><span>Direction</span><strong id="direction-readout">Opens up</strong></div>
+          <div><span>Extremum</span><strong id="extremum-readout">Minimum: −3</strong></div>
+          <div class="feature-wide"><span>Real roots</span><strong id="roots-readout">x ≈ −0.73 and x ≈ 2.73</strong></div>
+        </div>
+
+        <fieldset class="toggle-row"><legend>Show on graph</legend>
+          <label><input id="show-vertex" type="checkbox" checked><span>Vertex</span></label>
+          <label><input id="show-axis" type="checkbox" checked><span>Symmetry</span></label>
+          <label><input id="show-pairs" type="checkbox" checked><span>Paired points</span></label>
+        </fieldset>
+
+        <div class="notice"><strong id="teach-insight">The vertex is the lowest point.</strong><span id="teach-detail">Its y-coordinate, −3, is the minimum value.</span></div>
+      </section>
+
+      <section id="algebra-panel" class="panel-view" aria-labelledby="algebra-title">
+        <p class="eyebrow">Standard form</p>
+        <h2 id="algebra-title" class="equation standard-equation">f(x) = <span id="std-a">1</span>x² <span id="std-b-sign">−</span> <span id="std-b">2</span>x <span id="std-c-sign">−</span> <span id="std-c">3</span></h2>
+        <p class="equation-note">f(x) = ax² + bx + c</p>
+        <div class="coefficient-grid" aria-label="Standard form coefficients">
+          <label>a <input id="standard-a" type="number" value="1" step="1"></label>
+          <label>b <input id="standard-b" type="number" value="-2" step="1"></label>
+          <label>c <input id="standard-c" type="number" value="-3" step="1"></label>
+        </div>
+        <div class="algebra-steps">
+          <article class="algebra-step active" data-step="0"><span class="step-number">1</span><div><strong>Find the x-coordinate</strong><p>Use the axis-of-symmetry formula.</p><div class="math-work" id="work-axis"></div></div></article>
+          <article class="algebra-step locked" data-step="1"><span class="step-number">2</span><div><strong>Name the axis of symmetry</strong><p>The x-coordinate becomes a vertical line.</p><div class="math-work" id="work-line"></div></div></article>
+          <article class="algebra-step locked" data-step="2"><span class="step-number">3</span><div><strong>Find the y-coordinate</strong><p>Substitute the x-coordinate back into f(x).</p><div class="math-work" id="work-substitute"></div></div></article>
+          <article class="algebra-step locked" data-step="3"><span class="step-number">4</span><div><strong>State the vertex and extremum</strong><p>Interpret the point using the sign of a.</p><div class="math-work" id="work-vertex"></div></div></article>
+        </div>
+        <div class="action-row algebra-actions"><button id="algebra-next" class="primary" type="button">Show step 1</button><button id="algebra-reset" class="secondary" type="button">Start over</button></div>
+        <p id="root-note" class="root-note"></p>
+      </section>
+
+      <section id="guided-panel" class="panel-view" aria-labelledby="guided-title">
+        <div class="progress-label"><span>Guided problem</span><strong id="guided-count">1 of 5</strong></div>
+        <div class="progress-track"><span id="guided-progress"></span></div>
+        <p class="eyebrow" id="guided-skill">Step 1 · Read the graph</p>
+        <h2 id="guided-title">Does the parabola have a maximum or minimum?</h2>
+        <div id="guided-control" class="answer-area"></div>
+        <div id="guided-feedback" class="feedback" aria-live="polite"></div>
+        <div class="action-row">
+          <button id="guided-check" class="primary" type="button">Check answer</button>
+          <button id="guided-next" class="secondary" type="button" hidden>Next step →</button>
+        </div>
+        <button id="guided-restart" class="text-button" type="button">Start with a different graph</button>
+      </section>
+
+      <section id="test-panel" class="panel-view" aria-labelledby="test-title">
+        <div id="test-active">
+          <div class="progress-label"><span>PR1 skill check</span><strong id="test-count">1 of 8</strong></div>
+          <div class="progress-track"><span id="test-progress"></span></div>
+          <p class="eyebrow" id="test-type">Identify a feature</p>
+          <h2 id="test-title">Identify the axis of symmetry.</h2>
+          <div id="test-control" class="answer-area"></div>
+          <div id="test-feedback" class="feedback" aria-live="polite"></div>
+          <div class="action-row"><button id="test-check" class="primary" type="button">Submit answer</button><button id="test-next" class="secondary" type="button" hidden>Next →</button></div>
+        </div>
+        <div id="test-results" hidden>
+          <p class="eyebrow">Skill check complete</p><h2>Your PR1 snapshot</h2>
+          <div class="score-ring" id="score-ring"><strong id="score-value">0%</strong><span>overall</span></div>
+          <div id="skill-results" class="skill-results"></div>
+          <button id="test-restart" class="primary wide" type="button">Try a new set</button>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <section class="connection-strip" aria-labelledby="connection-title">
+    <div><p class="eyebrow">The PR1 connection</p><h2 id="connection-title">One vertex, three meanings</h2></div>
+    <div class="connection"><span class="number">1</span><p><strong>Point</strong>The vertex is <span id="strip-vertex">(1, −3)</span>.</p></div>
+    <div class="connector" aria-hidden="true">→</div>
+    <div class="connection"><span class="number">2</span><p><strong>Line</strong>The axis is <span id="strip-axis">x = 1</span>.</p></div>
+    <div class="connector" aria-hidden="true">→</div>
+    <div class="connection"><span class="number">3</span><p><strong>Value</strong>The minimum is <span id="strip-value">−3</span>.</p></div>
+  </section>
+
+  <footer><p>PR1 · Graph quadratic functions and identify their axis of symmetry and maximum or minimum point.</p><p>Math 172 · Santa Ana College</p></footer>
+  <script src="app.js"></script>
+</body>
+</html>
